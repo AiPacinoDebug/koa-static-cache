@@ -1,4 +1,4 @@
-# koa-cache-static
+# koa-static
 
 [![NPM version][npm-image]][npm-url]
 [![Build status][travis-image]][travis-url]
@@ -7,21 +7,20 @@
 [![License][license-image]][license-url]
 [![Downloads][downloads-image]][downloads-url]
 
-
- Static file serving middleware.
+ Koa static file serving middleware, wrapper for [`koa-send`](https://github.com/koajs/send).
 
 ## Installation
 
 ```bash
-$ npm install koa-cache-static
+$ npm install koa-static
 ```
 
 ## API
 
 ```js
-var koa = require('koa');
-var app = koa();
-app.use(require('koa-cache-static')(root, opts));
+const Koa = require('koa');
+const app = new Koa();
+app.use(require('koa-static')(root, opts));
 ```
 
 * `root` root directory string. nothing above this root directory can be served
@@ -32,14 +31,16 @@ app.use(require('koa-cache-static')(root, opts));
  - `maxage` Browser cache max-age in milliseconds. defaults to 0
  - `hidden` Allow transfer of hidden files. defaults to false
  - `index` Default file name, defaults to 'index.html'
- - `defer` If true, serves after `yield next`, allowing any downstream middleware to respond first.
+ - `defer` If true, serves after `return next()`, allowing any downstream middleware to respond first.
+ - `gzip`  Try to serve the gzipped version of a file automatically when gzip is supported by a client and if the requested file with .gz extension exists. defaults to true.
+ - `extensions` Try to match extensions from passed array to search for file when no extension is sufficed in URL. First found is served. (defaults to `false`)
 
 ## Example
 
 ```js
-var serve = require('koa-cache-static');
-var koa = require('koa');
-var app = koa();
+const serve = require('koa-static');
+const Koa = require('koa');
+const app = new Koa();
 
 // $ GET /package.json
 app.use(serve('.'));
@@ -55,12 +56,18 @@ app.listen(3000);
 console.log('listening on port 3000');
 ```
 
+### See also
+
+ - [koajs/conditional-get](https://github.com/koajs/conditional-get) Conditional GET support for koa
+ - [koajs/compress](https://github.com/koajs/compress) Compress middleware for koa
+ - [koajs/mount](https://github.com/koajs/mount) Mount `koa-static` to a specific path
+
 ## License
 
   MIT
 
-[npm-image]: https://img.shields.io/npm/v/koa-cache-static.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/koa-cache-static
+[npm-image]: https://img.shields.io/npm/v/koa-static.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/koa-static
 [github-tag]: http://img.shields.io/github/tag/koajs/static.svg?style=flat-square
 [github-url]: https://github.com/koajs/static/tags
 [travis-image]: https://img.shields.io/travis/koajs/static.svg?style=flat-square
@@ -69,9 +76,9 @@ console.log('listening on port 3000');
 [coveralls-url]: https://coveralls.io/r/koajs/static?branch=master
 [david-image]: http://img.shields.io/david/koajs/static.svg?style=flat-square
 [david-url]: https://david-dm.org/koajs/static
-[license-image]: http://img.shields.io/npm/l/koa-cache-static.svg?style=flat-square
+[license-image]: http://img.shields.io/npm/l/koa-static.svg?style=flat-square
 [license-url]: LICENSE
-[downloads-image]: http://img.shields.io/npm/dm/koa-cache-static.svg?style=flat-square
-[downloads-url]: https://npmjs.org/package/koa-cache-static
+[downloads-image]: http://img.shields.io/npm/dm/koa-static.svg?style=flat-square
+[downloads-url]: https://npmjs.org/package/koa-static
 [gittip-image]: https://img.shields.io/gittip/jonathanong.svg?style=flat-square
 [gittip-url]: https://www.gittip.com/jonathanong/
